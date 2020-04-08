@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/parent_small"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        fresco:cardCornerRadius="5dp"
+        fresco:cardElevation="5dp"
+        fresco:cardUseCompatPadding="true"
+        fresco:layout_constraintEnd_toEndOf="parent"
+        fresco:layout_constraintStart_toStartOf="parent"
+        fresco:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textViewOptions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:paddingRight="15dp"
+                android:text="&#8942;"
+                android:textAppearance="?android:textAppearanceLarge" />
+
+            <ImageView
+                android:id="@+id/small_img"
+                android:layout_width="130dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                fresco:layout_constraintEnd_toEndOf="parent"
+                fresco:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/small_img"
+                android:layout_centerInParent="true"
+                android:ellipsize="end"
+                android:gravity="left"
+                android:maxLines="2"
+                android:textColor="@color/color_black"
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_toRightOf="@+id/small_img"
+                android:ellipsize="end"
+                android:gravity="left"
+                android:maxLines="2"
+                android:text=""
+                android:visibility="gone"
+                android:textColor="@color/color_txtBlack"
+                android:textSize="14dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/title"
+                android:layout_toRightOf="@+id/small_img"
+                android:orientation="horizontal"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:id="@+id/site"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/small_img"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toRightOf="@+id/small_img"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text=""
+                    android:textColor="@color/color_txtBlack"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/updatedAt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/small_img"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toLeftOf="@+id/category"
+                    android:layout_toRightOf="@+id/site"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text=""
+                    android:textColor="@color/color_txtBlack"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/small_img"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="15dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/category_border"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:textColor="@color/color_txtBlack"
+                    android:textSize="12dp"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
