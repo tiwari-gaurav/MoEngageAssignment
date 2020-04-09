@@ -1,4 +1,4 @@
-package com.moengage.assignment;
+package com.moengage.assignment.network;
 
 import android.net.NetworkInfo;
 

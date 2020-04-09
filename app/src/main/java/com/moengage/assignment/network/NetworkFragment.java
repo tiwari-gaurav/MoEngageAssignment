@@ -1,4 +1,4 @@
-package com.moengage.assignment;
+package com.moengage.assignment.network;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -14,7 +14,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 
@@ -197,9 +196,9 @@ public class NetworkFragment extends Fragment {
         try {
             connection = (HttpsURLConnection) url.openConnection();
             // Timeout for reading InputStream arbitrarily set to 3000ms.
-            connection.setReadTimeout(3000);
+            connection.setReadTimeout(5000);
             // Timeout for connection.connect() arbitrarily set to 3000ms.
-            connection.setConnectTimeout(3000);
+            connection.setConnectTimeout(5000);
             // For this use case, set HTTP method to GET.
             connection.setRequestMethod("GET");
             // Already true by default but setting just in case; needs to be true since this request

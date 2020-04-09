@@ -1,36 +1,40 @@
-package com.moengage.assignment;
+package com.moengage.assignment.view;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
-import com.google.gson.JsonObject;
+import com.moengage.assignment.R;
+import com.moengage.assignment.network.DownloadCallback;
+import com.moengage.assignment.network.NetworkFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedOutputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
-public class MainActivity extends FragmentActivity implements DownloadCallback {
+public class MainActivity extends AppCompatActivity implements DownloadCallback,ActionBottomDialogFragment.ItemClickListener {
 ProgressBar progressBar;
 private ArrayList<NewsModel>newsList;
 private NewsAdapter mAdapter;
@@ -42,18 +46,20 @@ private RecyclerView recyclerView;
     // Boolean telling us whether a download is in progress, so we don't trigger overlapping
     // downloads with consecutive button clicks.
     private boolean downloading = false;
-private static final String url="https://candidate-test-data-moengage.s3.amazonaws.com/Android/news-api-feed/staticResponse.json";
+private static final String url="https://candidate-test-data-moengage.s3.amazonaws.com/Android/news-api-feed/staticRespon\n" +
+        "se.json";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
          recyclerView = findViewById(R.id.recyclerView);
         progressBar=findViewById(R.id.progress_bar);
         Button start = findViewById(R.id.startDownload);
         newsList=new ArrayList<>();
         networkFragment = NetworkFragment.getInstance(getSupportFragmentManager(), url);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter=new NewsAdapter(this);
+        mAdapter=new NewsAdapter(this,"main_activity");
         recyclerView.setAdapter(mAdapter);
         start.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,9 +68,26 @@ private static final String url="https://candidate-test-data-moengage.s3.amazona
             }
         });
 
-
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.stories:
+                startActivity(new Intent(this,SavedStoriesActivity.class));
+                break;
+            case R.id.sort:
+                showBottomSheet();
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.stories_menu, menu);
+        return true;
+    }
 
     @Override
     public void updateFromDownload(Object result) {
@@ -138,5 +161,59 @@ private static final String url="https://candidate-test-data-moengage.s3.amazona
         recyclerView.setLayoutAnimation(controller);
 
         recyclerView.scheduleLayoutAnimation();
+    }
+
+    private void showBottomSheet() {
+        ActionBottomDialogFragment addPhotoBottomDialogFragment =
+                ActionBottomDialogFragment.newInstance();
+        addPhotoBottomDialogFragment.show(getSupportFragmentManager(),
+                ActionBottomDialogFragment.TAG);
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
+
+    @Override
+    public void onItemClick(String item) {
+        if(item.equalsIgnoreCase("old to new")){
+            sortOldToNew();
+        }
+        else
+            sortNewToOld();
+    }
+
+    private void sortOldToNew() {
+        Collections.sort(newsList, new Comparator<NewsModel>() {
+            DateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            @Override
+            public int compare(NewsModel o1, NewsModel o2) {
+                try {
+                    return f.parse(o1.publishedAt).compareTo(f.parse(o2.publishedAt));
+                } catch (ParseException e) {
+                    throw new IllegalArgumentException(e);
+                }
+            }
+        });
+        mAdapter.updateList(newsList);
+    }
+
+    private void sortNewToOld() {
+        Collections.sort(newsList, new Comparator<NewsModel>() {
+            DateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            @Override
+            public int compare(NewsModel o1, NewsModel o2) {
+                try {
+                    return f.parse(o1.publishedAt).compareTo(f.parse(o2.publishedAt));
+                } catch (ParseException e) {
+                    throw new IllegalArgumentException(e);
+                }
+            }
+        });
+        Collections.reverse(newsList);
+        mAdapter.updateList(newsList);
     }
 }

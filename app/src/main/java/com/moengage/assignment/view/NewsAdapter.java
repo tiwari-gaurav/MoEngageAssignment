@@ -1,4 +1,4 @@
-package com.moengage.assignment;
+package com.moengage.assignment.view;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.moengage.assignment.R;
+import com.moengage.assignment.database.DatabaseHelper;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -30,10 +32,14 @@ import java.util.Locale;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
     ArrayList<NewsModel>headlinesList;
     private Context mContext;
+    private DatabaseHelper db;
+    private String TAG="";
 
-    public NewsAdapter(Context context){
+    public NewsAdapter(Context context, String main_activity){
     this.mContext=context;
     headlinesList=new ArrayList<>();
+    db=new DatabaseHelper(mContext);
+    TAG=main_activity;
     }
     @NonNull
     @Override
@@ -46,12 +52,16 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull final NewsViewHolder holder, final int position) {
-        holder.tv_title.setText(headlinesList.get(position).title);
-        holder.tv_desc.setText(headlinesList.get(position).content);
-        holder.tv_source.setText(headlinesList.get(position).sourceName);
-        holder.tv_published.setText(convertDate(headlinesList.get(position).publishedAt));
-        holder.tv_author.setText("Author:"+ " "+headlinesList.get(position).author);
-        Glide.with(mContext).load(headlinesList.get(position).urlToImage).apply(
+        if(TAG.equalsIgnoreCase("stories"))
+            holder.tv_option_menu.setVisibility(View.GONE);
+        else
+            holder.tv_option_menu.setVisibility(View.VISIBLE);
+        holder.tv_title.setText(headlinesList.get(position).getTitle());
+        holder.tv_desc.setText(headlinesList.get(position).getContent());
+        holder.tv_source.setText(headlinesList.get(position).getSourceName());
+        holder.tv_published.setText(convertDate(headlinesList.get(position).getPublishedAt()));
+        holder.tv_author.setText("Author:"+ " "+headlinesList.get(position).getAuthor());
+        Glide.with(mContext).load(headlinesList.get(position).getUrlToImage()).apply(
                new RequestOptions().placeholder(R.drawable.ic_news_placeholder_small)
                         .error(R.drawable.ic_news_placeholder_small)).into(holder.iv_thumbnail);
         holder.tv_option_menu.setOnClickListener(new View.OnClickListener() {
@@ -68,10 +78,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.menu1:
-                                shareStories(headlinesList.get(position).url);
+                                shareStories(headlinesList.get(position).getUrl());
                                 return true;
                             case R.id.menu2:
                                 //handle menu2 click
+                                db.insertNote(headlinesList.get(position));
                                 return true;
                             default:
                                 return false;
@@ -86,7 +97,19 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         holder.parentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                        createDialog(mContext,headlinesList.get(position).url);
+                if(TAG.equalsIgnoreCase("stories")){
+                    Intent intent = new Intent(mContext,StoryDetailActivity.class);
+                    intent.putExtra("title",headlinesList.get(position).title);
+                    intent.putExtra("description",headlinesList.get(position).description);
+                    intent.putExtra("author",headlinesList.get(position).author);
+                    intent.putExtra("content",headlinesList.get(position).content);
+                    intent.putExtra("publishedAt",headlinesList.get(position).publishedAt);
+                    intent.putExtra("source",headlinesList.get(position).sourceName);
+                    intent.putExtra("banner_image",headlinesList.get(position).urlToImage);
+
+                    mContext.startActivity(intent);
+                }else
+                        createDialog(mContext,headlinesList.get(position).getUrl());
             }
         });
 
