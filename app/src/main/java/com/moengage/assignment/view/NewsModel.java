@@ -3,7 +3,7 @@ package com.moengage.assignment.view;
 public class NewsModel {
 
     public static final String TABLE_NAME = "stories";
-
+    public static final String TABLE_NAME1="headlines";
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_SOURCE = "source";
     public static final String COLUMN_AUTHOR = "author";
@@ -16,7 +16,20 @@ public class NewsModel {
 
     // Create table SQL query
     public static final String CREATE_TABLE =
-            "CREATE TABLE " + TABLE_NAME + "("
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "("
+                    + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                    + COLUMN_SOURCE + " TEXT,"
+                    + COLUMN_AUTHOR + " TEXT,"
+                    + COLUMN_DESCRIPTION + " TEXT,"
+                    + COLUMN_CONTENT + " TEXT,"
+                    + COLUMN_TITLE + " TEXT,"
+                    + COLUMN_URL + " TEXT,"
+                    + COLUMN_URLTOIMAGE + " TEXT,"
+                    + COLUMN_PUBLISHEDAT + " TEXT"
+                    + ")";
+
+    public static final String CREATE_TABLE_Headlines =
+            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME1 + "("
                     + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + COLUMN_SOURCE + " TEXT,"
                     + COLUMN_AUTHOR + " TEXT,"

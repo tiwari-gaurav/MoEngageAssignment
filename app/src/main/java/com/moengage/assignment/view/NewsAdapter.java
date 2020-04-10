@@ -35,12 +35,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     private DatabaseHelper db;
     private String TAG="";
 
-    public NewsAdapter(Context context, String main_activity){
+    public NewsAdapter(Context context, String main_activity, DatabaseHelper db){
     this.mContext=context;
     headlinesList=new ArrayList<>();
-    db=new DatabaseHelper(mContext);
+    this.db =db;
     TAG=main_activity;
     }
+
     @NonNull
     @Override
     public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

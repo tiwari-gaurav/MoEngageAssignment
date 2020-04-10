@@ -39,9 +39,13 @@ public class StoryDetailActivity extends AppCompatActivity {
         TextView publishedAt=findViewById(R.id.publish);
         ImageView image=findViewById(R.id.banner_image);
         publishedAt.setText(convertDate(published));
+        if(title!=null)
         tv_title.setText(title);
+        if(desc!=null)
         tv_desc.setText(desc);
+        if(source!=null)
         tv_source.setText(source);
+        if(author!=null)
         tv_author.setText("Author:"+" "+author);
         Glide.with(this).load(banner_image).apply(
                 new RequestOptions().placeholder(R.drawable.ic_news_placeholder_small)

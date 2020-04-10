@@ -29,7 +29,7 @@ public class SavedStoriesActivity extends AppCompatActivity {
         db=new DatabaseHelper(this);
         savedStoriesList=db.getAllStories();
         storyRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter=new NewsAdapter(this, "stories");
+        mAdapter=new NewsAdapter(this, "stories", db);
         storyRecyclerView.setAdapter(mAdapter);
         mAdapter.updateList(savedStoriesList);
     }

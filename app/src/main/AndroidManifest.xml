@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.moengage.assignment">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -12,8 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
-        <activity android:name=".view.ActionBottomDialogFragment"></activity>
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".view.StoryDetailActivity" />
         <activity android:name=".view.SavedStoriesActivity" />
         <activity android:name=".view.MainActivity">
@@ -23,6 +24,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- registering the receiver -->
+        <receiver
+            android:name=".network.TaskScheduler"
+            android:enabled="true"
+            android:exported="true" />
+        <service android:name=".network.DownloadService" />
     </application>
 
 </manifest>

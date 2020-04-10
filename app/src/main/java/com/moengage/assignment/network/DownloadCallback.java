@@ -15,7 +15,7 @@ public interface DownloadCallback<T> {
      * Indicates that the callback handler needs to update its appearance or information based on
      * the result of the task. Expected to be called from the main thread.
      */
-    void updateFromDownload(T result);
+   // void updateFromDownload(T result);
 
     /**
      * Get the device's active network status in the form of a NetworkInfo object.
@@ -27,11 +27,11 @@ public interface DownloadCallback<T> {
      * @param progressCode must be one of the constants defined in DownloadCallback.Progress.
      * @param percentComplete must be 0-100.
      */
-    void onProgressUpdate(int progressCode, int percentComplete);
+  //  void onProgressUpdate(int progressCode, int percentComplete);
 
     /**
      * Indicates that the download operation has finished. This method is called even if the
      * download hasn't completed successfully.
      */
-    void finishDownloading();
+    //void finishDownloading();
 }
