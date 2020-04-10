@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -29,7 +30,8 @@
             android:name=".network.TaskScheduler"
             android:enabled="true"
             android:exported="true" />
-        <service android:name=".network.DownloadService" />
+        <service android:name=".network.DownloadService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
     </application>
 
 </manifest>

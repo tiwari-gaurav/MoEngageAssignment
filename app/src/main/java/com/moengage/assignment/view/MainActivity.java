@@ -53,9 +53,7 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback,
     private NewsAdapter mAdapter;
     private RecyclerView recyclerView;
     private DatabaseHelper db;
-    // Keep a reference to the NetworkFragment, which owns the AsyncTask object
-    // that is used to execute network ops.
-    private NetworkFragment networkFragment;
+
 
     // Boolean telling us whether a download is in progress, so we don't trigger overlapping
     // downloads with consecutive button clicks.
@@ -71,17 +69,22 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback,
             if (message.arg1 == RESULT_OK) {
                 progressBar.setVisibility(View.GONE);
                 newsList = db.getAllHeadlines();
-                if(mAdapter!=null)
-                mAdapter.updateList(newsList);
-                Toast.makeText(MainActivity.this, "Downloaded" ,
+                if (mAdapter != null)
+                    mAdapter.updateList(newsList);
+                if (recyclerView != null)
+                    runLayoutAnimation(recyclerView);
+                Toast.makeText(MainActivity.this, "Downloaded",
                         Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(MainActivity.this, "Download failed.",
                         Toast.LENGTH_LONG).show();
             }
 
-        };
+        }
+
+        ;
     };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,24 +92,32 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback,
         db = new DatabaseHelper(this);
         recyclerView = findViewById(R.id.recyclerView);
         progressBar = findViewById(R.id.progress_bar);
-        Button start = findViewById(R.id.startDownload);
         newsList = new ArrayList<>();
-        networkFragment = NetworkFragment.getInstance(getSupportFragmentManager(), url);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new NewsAdapter(this, "main_activity", db);
         recyclerView.setAdapter(mAdapter);
-        start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (getActiveNetworkInfo() != null || getActiveNetworkInfo().isConnected())
-                    startDownload();
-                else {
-                    newsList = db.getAllHeadlines();
-                    mAdapter.updateList(newsList);
-                }
+
+        if (CommonUtilities.haveNetworkConnection(this)) {
+            if (!CommonUtilities.isFirstTime(this, "isFirstDownloaded")) {
+                startDownload();
+                setAlarm();
+            } else {
+                getDataFromDb();
+
             }
-        });
-        setAlarm();
+        } else {
+            getDataFromDb();
+            Toast.makeText(this, "Please check your internet connection", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    private void getDataFromDb() {
+        newsList = db.getAllHeadlines();
+        if (newsList.size() > 0)
+            progressBar.setVisibility(View.GONE);
+        mAdapter.updateList(newsList);
+        runLayoutAnimation(recyclerView);
     }
 
     private void setAlarm() {
@@ -115,14 +126,15 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback,
 
         //creating a new intent specifying the broadcast receiver
         Intent i = new Intent(this, TaskScheduler.class);
+        i.putExtra("url", url);
 
         //creating a pending intent using the intent
-        PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
+        PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //setting the repeating alarm that will be fired every day
         am.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                 SystemClock.elapsedRealtime(),
-                1*60*1000, pi);
+                3 * 60 * 60 * 1000, pi);
         Toast.makeText(this, "Alarm is set", Toast.LENGTH_SHORT).show();
     }
 
@@ -160,8 +172,8 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback,
         Messenger messenger = new Messenger(handler);
         // TODO put messages into the intent
         intent.putExtra("MESSENGER", messenger);
-        intent.putExtra("url",url);
-        startService(intent);
+        intent.putExtra("url", url);
+        DownloadService.enqueueWork(this, intent);
     }
 
     /*
@@ -229,5 +241,6 @@ public class MainActivity extends AppCompatActivity implements DownloadCallback,
         });
         Collections.reverse(newsList);
         mAdapter.updateList(newsList);
+        runLayoutAnimation(recyclerView);
     }
 }

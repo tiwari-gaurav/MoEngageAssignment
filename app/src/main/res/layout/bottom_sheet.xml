@@ -5,22 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="8dp"
-    >
+    android:background="@color/bottom_sheet">
     <TextView
         android:id="@+id/textView"
         android:layout_marginTop="8dp"
-        android:text="old to new"
+        android:text="Old to new"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/color_black"
         style="@style/ActionItem"
         />
     <TextView
         android:id="@+id/textView2"
-        android:text="new to old"
+        android:text="New to old"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
+        android:textColor="@color/color_black"
         style="@style/ActionItem"
         />
 

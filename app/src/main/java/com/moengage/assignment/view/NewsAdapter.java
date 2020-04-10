@@ -136,7 +136,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     private String convertDate(String dateInput){
         String  formattedDate  = "";
         DateFormat readFormat  = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        DateFormat writeFormat  = new SimpleDateFormat("MMM d", Locale.ENGLISH);
+        DateFormat writeFormat  = new SimpleDateFormat("MMM d, yyyy", Locale.ENGLISH);
         Date date  = null;
         try {
             date = readFormat.parse(dateInput);

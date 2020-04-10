@@ -92,6 +92,7 @@
                     android:layout_weight="1"
                     android:gravity="left"
                     android:text=""
+                    android:visibility="gone"
                     android:textColor="@color/color_txtBlack"
                     android:textSize="14dp" />
 
@@ -107,7 +108,7 @@
                     android:layout_weight="1"
                     android:gravity="left"
                     android:text=""
-                    android:textColor="@color/color_txtBlack"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="14dp" />
 
                 <TextView

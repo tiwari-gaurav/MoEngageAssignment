@@ -3,6 +3,7 @@
     <color name="colorPrimary">#b20000</color>
     <color name="colorPrimaryDark">#990000</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="bottom_sheet">#fff7f7</color>
     <color name="color_txtBlack">#6C6B6B</color>
     <color name="color_black">#000000</color>
     <color name="transparent">#00000000</color>
