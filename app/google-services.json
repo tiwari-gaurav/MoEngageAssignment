@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "247985406635",
+    "firebase_url": "https://newslive-78c85.firebaseio.com",
+    "project_id": "newslive-78c85",
+    "storage_bucket": "newslive-78c85.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:247985406635:android:98bb11e442358ed90c2dee",
+        "android_client_info": {
+          "package_name": "com.moengage.assignment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "247985406635-9lc9jld7j5qil5bl3gqkf0opdp7kcv17.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.moengage.assignment",
+            "certificate_hash": "8673aa1f48ad10eddb86b4f6372d1b5e2d07d2ab"
+          }
+        },
+        {
+          "client_id": "247985406635-macqa99hr1dfbek02v6fj04fqvvkb9va.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAT84GCQKTTbA0P9McbfpptHGzDfwL25ko"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "247985406635-macqa99hr1dfbek02v6fj04fqvvkb9va.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
